@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hudomju.swipe.OnItemClickListener;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
         final ArrayList<Item> todo = new ArrayList<>();
         final ListView main = findViewById(R.id.list);
+
+        final ItemListAdapter adapter = new ItemListAdapter(todo, MainActivity.this);
+        main.setAdapter(adapter);
 
         FloatingActionButton fab = findViewById(R.id.add);
         fab.setOnClickListener( new View.OnClickListener() {
@@ -48,13 +53,14 @@ public class MainActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.MATCH_PARENT);
                 input.setLayoutParams(lp);
 
+
+
                 alertDialog.setPositiveButton("Add",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 String newTask = input.getText().toString();
                                 todo.add(new Item(newTask, false));
-                                ItemListAdapter adapter = new ItemListAdapter(todo, MainActivity.this);
-                                main.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
 
                             }
                         });
@@ -71,8 +77,27 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-        ItemListAdapter adapter = new ItemListAdapter(todo, MainActivity.this);
-        main.setAdapter(adapter);
+
+        main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Item item = todo.get(position);
+                AlertDialog.Builder doublecheck = new AlertDialog.Builder(MainActivity.this);
+                doublecheck.setTitle("Delete");
+                doublecheck.setMessage("Are you sure you want to delete this item?");
+                final int positionToRemove = position;
+                doublecheck.setNegativeButton("Cancel", null);
+                doublecheck.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        todo.remove(item);
+                        adapter.notifyDataSetChanged();
+                    }});
+                doublecheck.show();
+
+            }
+        });
+
     }
 
     @Override

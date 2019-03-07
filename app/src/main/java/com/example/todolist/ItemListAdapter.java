@@ -30,8 +30,8 @@ public class ItemListAdapter extends BaseAdapter {
     }
 
     @Override
-    public String getItem(int position) {
-        return list.get(position).getText();
+    public Item getItem(int position) {
+        return list.get(position);
     }
 
     @Override
@@ -78,5 +78,10 @@ public class ItemListAdapter extends BaseAdapter {
 
         return convertView;
 
+    }
+
+    public void remove(int position){
+        list.remove(position);
+        notifyDataSetChanged();
     }
 }
