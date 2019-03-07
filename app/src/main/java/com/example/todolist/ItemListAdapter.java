@@ -65,8 +65,6 @@ public class ItemListAdapter extends BaseAdapter {
                     if (!isChecked){
                         finalView.text.setPaintFlags(finalView.text.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                     }
-
-
                 }
             });
             convertView.setTag(view);

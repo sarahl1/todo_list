@@ -15,18 +15,18 @@
 
 
         <!--<TextView-->
-            <!--android:id="@+id/textView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="left"-->
-            <!--android:layout_margin="5dp"-->
-            <!--android:gravity="start|left"-->
-            <!--android:paddingBottom="0dp"-->
-            <!--android:text="TO-DO LIST"-->
-            <!--android:textAppearance="@style/TextAppearance.AppCompat"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--android:textSize="24sp"-->
-            <!--app:fontFamily="sans-serif-light" />-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="left"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:gravity="start|left"-->
+        <!--android:paddingBottom="0dp"-->
+        <!--android:text="TO-DO LIST"-->
+        <!--android:textAppearance="@style/TextAppearance.AppCompat"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--android:textSize="24sp"-->
+        <!--app:fontFamily="sans-serif-light" />-->
 
     </android.support.v7.widget.Toolbar>
 
@@ -44,7 +44,10 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:tint="@color/colorPrimary"
-        app:backgroundTint="?attr/colorControlNormal"
+        android:visibility="visible"
+        app:backgroundTint="@android:color/tertiary_text_light"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|right"
         app:srcCompat="@android:drawable/ic_input_add" />
