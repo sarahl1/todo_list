@@ -2,6 +2,7 @@ package com.example.todolist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +53,17 @@ public class ItemListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_main, null);
             view.text = (TextView) convertView.findViewById(R.id.entry);
             view.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox);
+            final ViewHolder finalView = view;
             view.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int position = (Integer) buttonView.getTag();
                     list.get(position).setChecked(buttonView.isChecked());
                     if (isChecked) {
-
+                        finalView.text.setPaintFlags(finalView.text.getPaintFlags()  | Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
+                    if (!isChecked){
+                        finalView.text.setPaintFlags(finalView.text.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                     }
 
 

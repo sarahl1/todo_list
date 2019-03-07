@@ -6,29 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="75dp"
+        android:background="@drawable/ic_launcher_background"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="30dp"
-            android:gravity="left"
-            android:paddingBottom="0dp"
-            android:text="To Do List" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:gravity="start|left"-->
+            <!--android:paddingBottom="0dp"-->
+            <!--android:text="TO-DO LIST"-->
+            <!--android:textAppearance="@style/TextAppearance.AppCompat"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:textSize="24sp"-->
+            <!--app:fontFamily="sans-serif-light" />-->
 
-    </android.support.design.widget.AppBarLayout>
+    </android.support.v7.widget.Toolbar>
 
     <include
         android:id="@+id/include"
         layout="@layout/content_main"
-        android:layout_height="635dp" />
+        android:layout_width="match_parent"
+        android:layout_height="718dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add"
