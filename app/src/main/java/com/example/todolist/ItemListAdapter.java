@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import static com.example.todolist.R.id.checkBox;
 
 public class ItemListAdapter extends BaseAdapter {
-    private ArrayList<Item> list;
+    protected ArrayList<Item> list;
     private Context context;
 
     public ItemListAdapter(ArrayList<Item> l, Context context){

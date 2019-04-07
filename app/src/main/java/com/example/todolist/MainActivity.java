@@ -2,6 +2,7 @@ package com.example.todolist;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,8 +24,12 @@ import android.widget.Toast;
 import com.hudomju.swipe.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private ArrayList<Item> todo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +38,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ArrayList<Item> todo = new ArrayList<>();
+        todo = new ArrayList<>();
         final ListView main = findViewById(R.id.list);
 
         final ItemListAdapter adapter = new ItemListAdapter(todo, MainActivity.this);
         main.setAdapter(adapter);
+
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        Map<String, String> prefList = (Map<String, String>) pref.getAll();
+        if (prefList.size()!=0) {
+            for (int i = 0; i < prefList.size(); i++) {
+                String item = prefList.get(String.format("Item%d", i));
+                todo.add(new Item(item, false));
+                adapter.notifyDataSetChanged();
+            }
+        }
 
         FloatingActionButton fab = findViewById(R.id.add);
         fab.setOnClickListener( new View.OnClickListener() {
@@ -120,6 +135,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+
+        ListView list = findViewById(R.id.list);
+
+        for (int i=0; i<todo.size(); i++){
+            //Item item = (Item) list.getAdapter().getItem(i);
+            Item item = todo.get(i);
+            if (!item.isChecked()) {
+                String val = item.getText();
+                editor.putString(String.format("Item%d", i), val);
+            }
+        }
+        editor.apply();
+
     }
 
 }
