@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Item> todo;
+    ItemListAdapter adapter = new ItemListAdapter(new ArrayList<Item>(), MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +37,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        todo = new ArrayList<>();
         final ListView main = findViewById(R.id.list);
 
-        final ItemListAdapter adapter = new ItemListAdapter(todo, MainActivity.this);
         main.setAdapter(adapter);
 
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
         Map<String, String> prefList = (Map<String, String>) pref.getAll();
+        System.out.println(prefList.size());
+        System.out.println(prefList.get(String.format("Item%d", 0)));
         if (prefList.size()!=0) {
             for (int i = 0; i < prefList.size(); i++) {
                 String item = prefList.get(String.format("Item%d", i));
-                todo.add(new Item(item, false));
-                adapter.notifyDataSetChanged();
+                adapter.add(new Item(item, false));
             }
         }
 
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int which) {
                                 String newTask = input.getText().toString();
-                                todo.add(new Item(newTask, false));
+                                adapter.add(new Item(newTask, false));
                                 adapter.notifyDataSetChanged();
 
                             }
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Item item = todo.get(position);
+                final Item item = adapter.getItem(position);
                 AlertDialog.Builder doublecheck = new AlertDialog.Builder(MainActivity.this);
                 doublecheck.setTitle("Delete");
                 doublecheck.setMessage("Are you sure you want to delete this item?");
@@ -105,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 doublecheck.setNegativeButton("Cancel", null);
                 doublecheck.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        todo.remove(item);
-                        adapter.notifyDataSetChanged();
+                        adapter.remove(item);
                     }});
                 doublecheck.show();
 
@@ -145,14 +142,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
 
-        ListView list = findViewById(R.id.list);
-
-        for (int i=0; i<todo.size(); i++){
-            //Item item = (Item) list.getAdapter().getItem(i);
-            Item item = todo.get(i);
+        //ListView list = findViewById(R.id.list);
+        int numUnchecked = 0;
+        for (int i=0; i<adapter.getList().size(); i++){
+            Item item = adapter.getItem(i);
             if (!item.isChecked()) {
+                numUnchecked++;
                 String val = item.getText();
-                editor.putString(String.format("Item%d", i), val);
+                editor.putString(String.format("Item%d", numUnchecked-1), val);
             }
         }
         editor.apply();

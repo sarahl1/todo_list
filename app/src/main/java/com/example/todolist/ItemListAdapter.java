@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import static com.example.todolist.R.id.checkBox;
+import static com.example.todolist.R.id.none;
 
 public class ItemListAdapter extends BaseAdapter {
     protected ArrayList<Item> list;
@@ -28,6 +29,8 @@ public class ItemListAdapter extends BaseAdapter {
     public int getCount() {
         return list.size();
     }
+
+    public ArrayList<Item> getList() { return list;}
 
     @Override
     public Item getItem(int position) {
@@ -80,8 +83,13 @@ public class ItemListAdapter extends BaseAdapter {
 
     }
 
-    public void remove(int position){
-        list.remove(position);
+    public void remove(Item i){
+        list.remove(i);
+        notifyDataSetChanged();
+    }
+
+    public void add(Item i){
+        list.add(i);
         notifyDataSetChanged();
     }
 }
